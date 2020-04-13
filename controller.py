@@ -95,7 +95,7 @@ def handle_form():
 
     # filename = 'quote.docx'
     # file_path = os.path.join(path, filename)
-    content = request.data
+    content = request.files['file']
     session_id = '00D0w0000000W7HEAU!ARoAQJ48df2y1JkxtvwuPALY1JdxBSKrWHUBaeHrQNo8yu4AJ9scCknO1Css2qn73ekA5rYUxHLBDHNJmVY4P74BWg.Id_dU'
     instance_url = request.headers['baseUrl']
     record_id = request.headers['recordId']
@@ -114,22 +114,26 @@ def handle_form():
     organization_id = org_id,folder_id = folder_id_dyn,file_name = file_name,generated_date = date.today())
     connection.execute(ins)
     Base.metadata.create_all(bind=DB_Engine)
-    file1 = open(folder_id_dyn,"wb")
-    file1.write(content) 
-    file1.close()
+    
+    #Writing to a document in a folder created with dynamic id
+    # file1 = open(folder_id_dyn,"wb")
+    # file1.write(content) 
+    # file1.close()
+
     bytes = b64decode(content)
     source_stream = BytesIO(content)
-    doc = docx.Document(folder_id_dyn)
-    # doc = Document(source_stream)
-    # source_stream.close()
-    # f.write(bytes)
-    # f.close
-    # doc = docx.Document(documentx)
+    # doc = docx.Document(folder_id_dyn)
+    doc = Document(source_stream)
+    source_stream.close()
+   
+    
+    
     # file = request.files['file']
     # filename = secure_filename(file.filename)
     # file_path = os.path.join(path, filename)
     # file.save(file_path)
     # doc = docx.Document(file_path)
+    
     full_text = []
     field_list = []
     child_obj_metadata = []
