@@ -125,6 +125,11 @@ def handle_form():
     # f.write(bytes)
     # f.close
     # doc = docx.Document(documentx)
+    # file = request.files['file']
+    # filename = secure_filename(file.filename)
+    # file_path = os.path.join(path, filename)
+    # file.save(file_path)
+    # doc = docx.Document(file_path)
     full_text = []
     field_list = []
     child_obj_metadata = []
