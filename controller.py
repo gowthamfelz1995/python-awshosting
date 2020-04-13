@@ -120,6 +120,7 @@ def handle_form():
     bytes = b64decode(content)
     source_stream = BytesIO(content)
     doc = docx.Document(folder_id_dyn)
+    
     # doc = Document(source_stream)
     # source_stream.close()
     # f.write(bytes)
