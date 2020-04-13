@@ -35,7 +35,7 @@ import shutil
 
 
 Base = declarative_base()
-SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://aspigrow:Aspi@2019@ec2-13-235-103-2.ap-south-1.compute.amazonaws.com:3306/docgen'
+SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://aspigrow:Aspi@2019@ec2-15-206-100-230.ap-south-1.compute.amazonaws.com:3306/docgen'
 DB_Engine = create_engine(SQLALCHEMY_DATABASE_URI)
 connection = DB_Engine.connect()
 
