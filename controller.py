@@ -505,16 +505,6 @@ def create_docx():
             "body": str(encoded)[2:-1],
             "parentId": record_id 
             }
-   
-    #Delete the directory
-    try:
-        get_dir_name = re.findall("./(.*?)/", request.headers['folderId'])
-        shutil.rmtree(get_dir_name[0])
-    except OSError as e:
-        print("Error: %s : %s" % (request.headers['folderId'], e.strerror))
-
-    # salesforce_response = requests.post(instance_url+"/services/data/v47.0/sobjects/Attachment",data=data,headers = {"Authorization":'OAuth '+'00D0p0000000V5HEAU!AQgAQEWkzrkC5T1NKhmV2C43BfSYR.2NbZ2VxatnomppLnH9V6hnFl1SCwIun9Cm2FI9Xbdpt_Lp6ie.pUyXXuFKfFisMEiJ','Content-Type': 'application/json'})
-    # print("salesforce_response-->{}".format(salesforce_response))
     return json.dumps(doc_data)
 
 
