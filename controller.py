@@ -493,8 +493,8 @@ def create_docx():
     doc = Document(source_stream)
     source_stream.close()
     file_name = request.files['file'].filename
-    record_id = json.loads(request.form.get('recordId'))
-    data_dict =  str(request.form.get('recordData'))
+    record_id = str(request.form.get('recordId'))
+    data_dict =  json.loads(request.form.get('recordData'))
     bind_values_doc(data_dict,doc)
     docx_stream = io.BytesIO()
     doc.save(docx_stream)
