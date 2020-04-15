@@ -79,7 +79,6 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 file_path = ''
 document_data = ''
 document_data_initial = ''
-session_id = ''
 record_id = ''
 file_name = ''
 file_type = ''
@@ -95,18 +94,16 @@ def handle_form():
 
     # filename = 'quote.docx'
     # file_path = os.path.join(path, filename)
-    content = request.files['file']
-    session_id = '00D0w0000000W7HEAU!ARoAQJ48df2y1JkxtvwuPALY1JdxBSKrWHUBaeHrQNo8yu4AJ9scCknO1Css2qn73ekA5rYUxHLBDHNJmVY4P74BWg.Id_dU'
-    instance_url = request.headers['baseUrl']
+    content = request.files['file'].read()
     record_id = request.headers['recordId']
-    file_name = request.headers['fileName']
+    file_name = request.files['file'].filename
     file_type = request.headers['fileType']
     file_name = file_name+'.docx'
     user_id = request.headers['userId']
     user_name = request.headers['userName']
     org_id = request.headers['orgId']
     id = uuid.uuid1()
-    os.makedirs('./'+id.hex)
+    # os.makedirs('./'+id.hex)
     
     #Log Data in Database
     folder_id_dyn = './'+id.hex+'/'+file_name
@@ -515,18 +512,19 @@ def handle_form():
 
 @app.route('/get_document', methods =['POST'])
 def create_docx():
-    print("folderIdInReturn",request.headers['folderId'])
-    doc = docx.Document(request.headers['folderId'])
-    data_dict = request.headers['salesforceData']
-    file_name = request.headers['fileName']
-    record_id = request.headers['recordId']
-    data_dict = json.loads(data_dict)
+    content = request.files['file'].read()
+    bytes = b64decode(content)
+    source_stream = BytesIO(content)
+    doc = Document(source_stream)
+    source_stream.close()
+    file_name = request.files['file'].filename
+    record_id = json.loads(request.form.get('recordId'))
+    data_dict =  json.loads(request.form.get('recordData'))
     bind_values_doc(data_dict,doc)
     docx_stream = io.BytesIO()
     doc.save(docx_stream)
     docx_bytes = docx_stream.getvalue()
     encoded = base64.b64encode(docx_bytes)
-    print("record_id",record_id)
     doc_data = {
             "fileName":file_name ,
             "body": str(encoded)[2:-1],
