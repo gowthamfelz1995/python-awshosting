@@ -91,46 +91,22 @@ def index():
     
 @app.route('/handle_form', methods =['POST'])
 def handle_form():
-
-    # filename = 'quote.docx'
-    # file_path = os.path.join(path, filename)
     content = request.files['file'].read()
-    record_id = request.headers['recordId']
+    record_id = str(request.form.get('recordId'))
     file_name = request.files['file'].filename
     file_type = request.headers['fileType']
     file_name = file_name+'.docx'
-    user_id = request.headers['userId']
-    user_name = request.headers['userName']
-    org_id = request.headers['orgId']
-    id = uuid.uuid1()
-    # os.makedirs('./'+id.hex)
-    
-    #Log Data in Database
-    folder_id_dyn = './'+id.hex+'/'+file_name
+    user_id = str(request.form.get('userId'))
+    user_name = str(request.form.get('userName'))
+    org_id = str(request.form.get('orgId'))
     ins = user_log.insert().values(user_id = user_id, user_name = user_name,
-    organization_id = org_id,folder_id = folder_id_dyn,file_name = file_name,generated_date = date.today())
+    organization_id = org_id,file_name = file_name,generated_date = date.today())
     connection.execute(ins)
     Base.metadata.create_all(bind=DB_Engine)
-    
-    #Writing to a document in a folder created with dynamic id
-    # file1 = open(folder_id_dyn,"wb")
-    # file1.write(content) 
-    # file1.close()
-
     bytes = b64decode(content)
     source_stream = BytesIO(content)
-    # doc = docx.Document(folder_id_dyn)
     doc = Document(source_stream)
     source_stream.close()
-   
-    
-    
-    # file = request.files['file']
-    # filename = secure_filename(file.filename)
-    # file_path = os.path.join(path, filename)
-    # file.save(file_path)
-    # doc = docx.Document(file_path)
-    
     full_text = []
     field_list = []
     child_obj_metadata = []
@@ -518,7 +494,7 @@ def create_docx():
     source_stream.close()
     file_name = request.files['file'].filename
     record_id = json.loads(request.form.get('recordId'))
-    data_dict =  json.loads(request.form.get('recordData'))
+    data_dict =  str(request.form.get('recordData'))
     bind_values_doc(data_dict,doc)
     docx_stream = io.BytesIO()
     doc.save(docx_stream)
