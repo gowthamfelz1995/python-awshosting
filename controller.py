@@ -178,7 +178,7 @@ def handle_form():
                         else:
                             field_list.append(field)
     field_list = list(dict.fromkeys(field_list))
-    print("child_obj_metadata-->{}".format(child_obj_metadata))
+    
     
     #This block will do json formation of fields and parent objects which will be returned to salesforce for retrieving data             
     if len(field_list) > 0 :
@@ -258,7 +258,7 @@ def handle_form():
                                 # parent_wrapper[check_obj_list.index(
                                 #     parent_wrap.objName
                                 # )].grandObjWrapperList = [grand_wrap_obj(filtered_obj[1],False,[field_wrap_obj(filtered_obj[2],False)])]
-                                print("grandObjWrapperList-->{}-->{}".format(filtered_obj[1],json.dumps(parent_wrapper, default=lambda o: o.__dict__)))
+                                
                                 
                                 
                                 
@@ -459,7 +459,6 @@ def handle_form():
                        cnd_obj_set[cnd_obj]=cnd_table
                        
         for field in child_obj_metadata:
-            print("field-->{}".format(field))
             format_type = re.findall("(#[A-Z]*)",field)
             if len(format_type) > 0 :
                 corrected_field = field.replace(format_type[0],'')
@@ -530,7 +529,7 @@ def create_docx():
             "body": str(encoded)[2:-1],
             "parentId": record_id 
             }
-    print("doc_data",doc_data)
+   
     #Delete the directory
     try:
         get_dir_name = re.findall("./(.*?)/", request.headers['folderId'])
