@@ -62,15 +62,8 @@ user_log = Table(
      Column('generated_date', Date),
      Column('file_name', String),
 )
-
-    
-
-
+   
                                                             
-
-
-
-
 UPLOAD_FOLDER = str(os.getcwd())+'/python-mailmerge/Document'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 path = str(os.getcwd())+'/Document'
